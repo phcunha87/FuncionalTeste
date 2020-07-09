@@ -3,6 +3,8 @@ package br.com.qa.tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
@@ -10,20 +12,24 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class Testesfuncionais {
 	
-	public WebDriver inicaliza() {
-		WebDriver driver = new ChromeDriver();
+	public WebDriver inicaliza() throws MalformedURLException {
+		//WebDriver driver = new ChromeDriver();
+		DesiredCapabilities cap = DesiredCapabilities.chrome();
+		WebDriver driver = new RemoteWebDriver(new URL("http://192.168.0.40:4444/wd/hub"), cap);
 		//abre url
-		driver.navigate().to("http://localhost:8001/tasks");
+		driver.navigate().to("http://192.168.0.40:8001/tasks");
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return driver;
 		
 	}
 	
 	@Test
-	public void naoDeveCadastrarSemDescricao() throws InterruptedException {
+	public void naoDeveCadastrarSemDescricao() throws InterruptedException, MalformedURLException {
 		WebDriver driver = inicaliza();
 		try {
 			Thread.sleep(1000);
@@ -48,7 +54,7 @@ public class Testesfuncionais {
 	
 	
 	@Test
-	public void naoDeveSalvarcomDataPassada() throws InterruptedException {
+	public void naoDeveSalvarcomDataPassada() throws InterruptedException, MalformedURLException {
 		WebDriver driver = inicaliza();
 		
 		try {
@@ -76,7 +82,7 @@ public class Testesfuncionais {
 	}
 	
 	@Test
-	public void deveCadastarComSucesso() throws InterruptedException {
+	public void deveCadastarComSucesso() throws InterruptedException, MalformedURLException {
 		
 		WebDriver driver = inicaliza();
 		
@@ -105,7 +111,7 @@ public class Testesfuncionais {
 	}
 	
 	@Test
-	public void naoDeveCadastrarSemData() throws InterruptedException {
+	public void naoDeveCadastrarSemData() throws InterruptedException, MalformedURLException {
 		WebDriver driver = inicaliza();
 		try {
 			Thread.sleep(1000);
